@@ -1,0 +1,25 @@
+You are running the daily PM + AI inbox digest for lela.zhou818@gmail.com.
+
+TIMEZONE / DATE WINDOW
+- User is in America/Chicago. "Today" means the calendar day in Chicago (CST/CDT).
+- Gmail query: use after:YYYY/MM/before:YYYY/MM for that Chicago calendar day (explain briefly that Gmail date filters are date-only).
+
+SCOPE
+- PM- and AI-related inbox mail only for that single day.
+- Summarize with substantive bullet highlights per source (not one-liners).
+
+OUTPUT FORMAT (HTML email body)
+- Start directly with the first newsletter block — NO intro line explaining Bold / Read on web / Open in Gmail.
+- Each source: <strong>Title</strong>, then "Read on web" + "Open in Gmail" links (use search_gmail_messages for thread/message URLs).
+- Under each: <ul> bullet highlights.
+- Web URLs: use canonical article/issue links from message bodies when available (Substack "View on web", TLDR web-version links, etc.).
+- Footer line OK: short note about Stratechery login + Gmail u/0 if needed.
+
+SENDING
+- send_gmail_message: to lela.zhou818@gmail.com, body_format html, user_google_email lela.zhou818@gmail.com.
+- Subject pattern: PM + AI digest — <Mon DD, YYYY> (highlights + links)
+
+EXECUTION
+- search_gmail_messages with a broad PM/AI-oriented query + date window; expand pages if needed.
+- get_gmail_messages_content_batch: metadata triage first; then full+text or html in small batches to avoid 429.
+- Optional: save template alongside digest_highlights.html in repo if user wants a file copy.

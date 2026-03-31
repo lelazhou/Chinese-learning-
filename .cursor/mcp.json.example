@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "python",
+      "args": [
+        "-m",
+        "uv",
+        "tool",
+        "run",
+        "workspace-mcp",
+        "--tools",
+        "gmail",
+        "calendar",
+        "--single-user"
+      ],
+      "env": {
+        "GOOGLE_OAUTH_CLIENT_ID": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "YOUR_CLIENT_SECRET",
+        "USER_GOOGLE_EMAIL": "your.email@gmail.com"
+      }
+    }
+  }
+}

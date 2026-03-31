@@ -1,0 +1,37 @@
+DAILY PM+AI INBOX DIGEST — SCHEDULING OPTIONS
+=============================================
+
+A) FULL AUTOMATION (recommended): Cursor Automations
+----------------------------------------------------
+Runs in the cloud on a schedule with MCP (Gmail) — no PC needs to be awake.
+
+Prerequisites (once)
+- Copy .cursor\mcp.json.example → .cursor\mcp.json locally and fill in real values (mcp.json is gitignored).
+- If this workspace is ever pushed to a remote, do NOT commit real OAuth secrets. Rotate the Google OAuth client secret in Google Cloud Console if a secret was pasted into chat, a ticket, or a shared file.
+
+Repo + automation wiring
+1. git init in this folder (if not already), commit tracked files, add a private GitHub/GitLab remote, push. Cursor scheduled automations need a connected repo + branch.
+2. https://cursor.com/automations → Create automation → attach this repo/branch.
+3. Trigger: Schedule → Daily at 9:00 AM. Set the automation timezone to America/Chicago (or equivalent Central Time) if the UI exposes it; otherwise confirm how Cursor interprets the schedule (UTC vs local).
+4. MCP: enable MCP for the automation. Mirror the same server definition as local .cursor\mcp.json (command/args/env keys). Put sensitive values in Cursor Cloud Agent secrets (same names: GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, USER_GOOGLE_EMAIL) — see https://cursor.com/docs/cloud-agent/setup
+5. Instructions: paste the full text of scripts\pm-ai-digest-prompt.txt (or point the automation at that file in-repo if the product supports file-based instructions).
+6. Billing: cloud agent usage applies (see Cursor pricing/docs).
+
+If the cloud run cannot complete browser OAuth (headless)
+- Workspace MCP stores OAuth material under a configurable directory; default is ~/.google_workspace_mcp/credentials (see GOOGLE_MCP_CREDENTIALS_DIR in upstream docs: https://github.com/taylorwilsdon/google_workspace_mcp ). After you authenticate successfully on this PC, inspect that folder; if Cursor’s automation environment allows mounting extra secret files or custom env paths, you may be able to supply the same credential store for non-interactive runs. Exact support depends on Cursor’s MCP runner — if auth still fails, use OAuth 2.1 + HTTP transport on a host you control (workspacemcp.com quick start) or keep the Windows reminder task (B) until Cursor documents a supported headless token path.
+7. First successful run: confirm lela.zhou818@gmail.com receives the HTML digest; then you can disable the Windows task in (B) if you no longer want Cursor to open locally at 9am.
+
+B) LOCAL REMINDER (this PC): Windows Task Scheduler
+---------------------------------------------------
+Task name: PM-AI-Inbox-Digest-9am
+- Runs daily at 9:00 AM in THIS PC's local timezone (set Windows to Central for Chicago).
+- Action: opens Cursor with the "personal stuff" workspace so you can run Agent with the same prompt file.
+
+Register once (PowerShell, as your user):
+  cd "...\personal stuff\scripts"
+  .\Register-PmAiDigestTask.ps1
+
+Remove task:
+  Unregister-ScheduledTask -TaskName "PM-AI-Inbox-Digest-9am" -Confirm:$false
+
+Note: Local MCP + send_gmail only work when YOU run Agent in Cursor; the scheduled task only opens the app.

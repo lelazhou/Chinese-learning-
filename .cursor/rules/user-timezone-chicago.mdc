@@ -1,0 +1,17 @@
+---
+description: User locale and timezone (Chicago) for dates, Gmail, and calendar
+alwaysApply: true
+---
+
+# User timezone and location
+
+- **Location:** Chicago, Illinois, USA  
+- **IANA timezone:** `America/Chicago` (US Central — CST in standard time, CDT during daylight saving)
+
+## How to use this
+
+When the user says **today**, **tomorrow**, **this week**, or similar, or when choosing **Gmail** `after:` / `before:` ranges, **default to America/Chicago** unless they say otherwise.
+
+**Gmail:** Date-only operators don’t embed a timezone; pick boundaries that match the user’s **Chicago calendar day** when explaining or building queries, and mention that Gmail may still classify some messages slightly differently.
+
+**Calendar / invites:** Use `America/Chicago` for local times unless an event is explicitly in another zone.

@@ -1,0 +1,17 @@
+# OAuth / MCP — never commit
+.cursor/mcp.json
+google-mcp.json
+**/.env
+**/.env.*
+**/client_secret.json
+**/mcp_send.json
+
+# Google Workspace MCP credential stores (local)
+.google_workspace_mcp/
+**/.google_workspace_mcp/
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+*.swp
+*~
