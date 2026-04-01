@@ -10,6 +10,10 @@ google-mcp.json
 .google_workspace_mcp/
 **/.google_workspace_mcp/
 
+# Python
+__pycache__/
+*.py[cod]
+
 # OS / editor
 Thumbs.db
 Desktop.ini

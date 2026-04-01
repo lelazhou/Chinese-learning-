@@ -21,6 +21,15 @@ If the cloud run cannot complete browser OAuth (headless)
 - Workspace MCP stores OAuth material under a configurable directory; default is ~/.google_workspace_mcp/credentials (see GOOGLE_MCP_CREDENTIALS_DIR in upstream docs: https://github.com/taylorwilsdon/google_workspace_mcp ). After you authenticate successfully on this PC, inspect that folder; if Cursor’s automation environment allows mounting extra secret files or custom env paths, you may be able to supply the same credential store for non-interactive runs. Exact support depends on Cursor’s MCP runner — if auth still fails, use OAuth 2.1 + HTTP transport on a host you control (workspacemcp.com quick start) or keep the Windows reminder task (B) until Cursor documents a supported headless token path.
 7. First successful run: confirm lela.zhou818@gmail.com receives the HTML digest; then you can disable the Windows task in (B) if you no longer want Cursor to open locally at 9am.
 
+C) GITHUB ACTIONS (private repo — no Cursor on-demand / cloud agents)
+--------------------------------------------------------------------
+Runs on GitHub’s runners on a schedule: Gmail API + OpenAI, same prompt file
+scripts\pm-ai-digest-prompt.txt. Does not use MCP.
+
+- Workflow: .github\workflows\daily-pm-ai-digest.yml
+- Setup: scripts\gh_digest\SETUP.txt (secrets, refresh token, manual test with force_run + DIGEST_DRY_RUN)
+- Billing: your OpenAI usage + free GitHub Actions minutes (private repos have a monthly allowance; check GitHub plan).
+
 B) LOCAL REMINDER (this PC): Windows Task Scheduler
 ---------------------------------------------------
 Task name: PM-AI-Inbox-Digest-9am

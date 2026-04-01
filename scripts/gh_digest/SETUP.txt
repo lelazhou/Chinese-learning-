@@ -1,0 +1,45 @@
+GitHub Actions — daily PM + AI Gmail digest
+============================================
+
+What runs
+- Workflow: .github/workflows/daily-pm-ai-digest.yml
+- Twice daily at 14:00 and 15:00 UTC; the Python job exits immediately unless
+  local time in America/Chicago is 9:00 (so one real run per day at ~9am Chicago).
+- Optional: Actions → "Daily PM + AI digest" → Run workflow → enable "force_run"
+  to test immediately (ignores 9am Chicago gate). Use DIGEST_DRY_RUN=1 variable
+  first if you only want logs, not email.
+
+Repository secrets (Settings → Secrets and variables → Actions)
+- GMAIL_CLIENT_ID          OAuth client ID (.apps.googleusercontent.com)
+- GMAIL_CLIENT_SECRET      OAuth client secret
+- GMAIL_REFRESH_TOKEN      Long-lived refresh token (see below)
+- OPENAI_API_KEY           OpenAI API key for summarization / HTML generation
+
+Optional repository variables (same page, Variables tab)
+- OPENAI_MODEL             Default: gpt-4o-mini
+- DIGEST_DRY_RUN           Set to 1 to log HTML without sending (testing)
+
+One-time: get GMAIL_REFRESH_TOKEN (run locally)
+1. In Google Cloud Console, use an OAuth client of type "Desktop app" (or reuse
+   your existing app's ID/secret if it allows installed-app redirect).
+2. PowerShell (fill in your values):
+     cd "path\to\personal stuff"
+     pip install -r scripts/gh_digest/requirements.txt
+     $env:GMAIL_CLIENT_ID="YOUR_ID.apps.googleusercontent.com"
+     $env:GMAIL_CLIENT_SECRET="YOUR_SECRET"
+     python scripts/gh_digest/get_refresh_token.py
+3. Complete the browser consent. Copy the printed refresh token into the
+   GMAIL_REFRESH_TOKEN secret.
+
+Google Cloud: enable Gmail API for the project; OAuth consent screen in Testing
+adds your Gmail as a test user unless the app is Internal / Published.
+
+Recipient
+- Default To: lela.zhou818@gmail.com. Override with secret not needed; set env
+  DIGEST_TO_EMAIL in the workflow file if you want a different address.
+
+Notes
+- Company mail policies may restrict OAuth or API access; use a personal Gmail
+  project if appropriate for your situation.
+- Query breadth and limits are in scripts/gh_digest/run_digest.py (Gmail query
+  string, DIGEST_MAX_MESSAGES, etc.).
