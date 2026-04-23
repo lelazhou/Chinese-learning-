@@ -1,0 +1,33 @@
+---
+description: Append "Best regards, Liping Zhou" to Gmail bodies and calendar invite descriptions
+alwaysApply: true
+---
+
+# Email and calendar closing (Liping Zhou)
+
+When composing on the user’s behalf via **Google Workspace MCP** (or equivalent):
+
+## Gmail
+
+For **`draft_gmail_message`** and **`send_gmail_message`**:
+
+- After the main message, append this closing **unless it already appears at the end** of the body (allow minor whitespace differences):
+
+```text
+
+Best regards,
+Liping Zhou
+```
+
+- **Plain text:** use two line breaks before `Best regards,`, then one line break before `Liping Zhou`.
+- **HTML (`body_format: html`):** use something like `<br><br>Best regards,<br>Liping Zhou` (or `<p>…</p>`) so it reads cleanly.
+- Do **not** rely on `include_signature` alone for this closing; **always** put this text in the `body` so it appears even without Gmail settings scopes.
+
+## Calendar invites
+
+For **`manage_event`** (create/update) when the user is **sending or updating an invite for others**:
+
+- If there is a **`description`**, append the same closing at the end if it is not already there.
+- If there are **`attendees`** and **`description` would otherwise be empty or omitted**, set **`description`** to that closing (optionally preceded by agenda/details if provided).
+
+Use **`user_google_email`:** `lela.zhou818@gmail.com` for these tools unless the user specifies another account.
