@@ -10,6 +10,9 @@ google-mcp.json
 .google_workspace_mcp/
 **/.google_workspace_mcp/
 
+# Node
+node_modules/
+
 # Python
 __pycache__/
 *.py[cod]
